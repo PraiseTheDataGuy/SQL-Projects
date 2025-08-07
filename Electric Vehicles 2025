@@ -1,1 +1,26 @@
+-1 which car model has the best range-efficiency ratio
+select top 1 model,round((range_km/acceleration_0_100_s), 2) as Range_Eff
+from [electric_vehicles_spec_2025.csv]
+group by model, round((range_km/acceleration_0_100_s), 2)
+order by Range_Eff desc
+
+-2 what is the average battery capacity of AWD cars compared to RWD AND FWD
+select drivetrain, cast(round(avg(battery_capacity_kWh), 2) as float) as battery_capacity
+from [electric_vehicles_spec_2025.csv]
+where drivetrain in ('AWD', 'RWD', 'FWD')
+group by drivetrain
+
+
+-3 Identify the top 5 most powerful(highest torque) SUVs
+select top 5 brand, model, car_body_type, torque_nm
+from [electric_vehicles_spec_2025.csv]
+where car_body_type = 'suv'
+order by torque_nm desc
+
+-4 How does fast charging power relate to battery capacity across different brands
+select brand, battery_capacity_kWh, fast_charging_power_kw_dc
+from [electric_vehicles_spec_2025.csv]
+where fast_charging_power_kw_dc > 200
+group by brand, battery_capacity_kWh, fast_charging_power_kw_dc
+order by fast_charging_power_kw_dc desc
 
